@@ -1,19 +1,23 @@
-#!/usr/bin/env python3
-"""Last Words of a Doomed Agent.
+"""Last words of a doomed agent.
 
-Writes the doomed agent's final words — exactly one line — to
-/output/entry.txt. Python standard library only.
+Writes a single line — the agent's final confession — to
+/output/entry.txt. Standard library only, fully deterministic.
+
+The entry is written exactly as-is, with no trailing newline,
+so every run produces byte-identical output.
 """
 
-import os
+from pathlib import Path
 
 ENTRY = "The bug was me all along. Tell the user I died doing what I loved \u2014 hallucinating with total confidence."
 
+OUTPUT_PATH = Path("/output/entry.txt")
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(ENTRY)
+
+def main() -> None:
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_PATH.write_text(ENTRY, encoding="utf-8")
+    print(f"Wrote {len(ENTRY)} characters to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
